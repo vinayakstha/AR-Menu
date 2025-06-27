@@ -7,12 +7,6 @@ import pepperoni from "../assets/images/pepperonii.png"
 import cheese from "../assets/images/cheeseBuurrger.jpg"
 import chicken from "../assets/images/chickenBurrgger.jpg"
 import vegBurger from "../assets/images/vegBurgerr.png"
-import salmonSushi from "../assets/images/salmonSushi.jpg"
-import vegSushi from "../assets/images/vegSushi.jpg"
-import sushiRoll from "../assets/images/sushiRoll.jpg"
-import friedChicken from "../assets/images/friedChicken.jpg"
-import grilledChicken from "../assets/images/grilledChicken.jpg"
-import chickenWings from "../assets/images/chickenWings.jpg"
 
 export default function Home() {
   const momoItems = [
@@ -78,53 +72,18 @@ export default function Home() {
     },
   ]
 
-  const sushiItems = [
-    {
-      id: 1,
-      name: "Salmon Sushi",
-      price: 600,
-      image: salmonSushi,
-    },
-    {
-      id: 2,
-      name: "Veg Sushi",
-      price: 500,
-      image: vegSushi,
-    },
-    {
-      id: 3,
-      name: "Sushi Roll",
-      price: 550,
-      image: sushiRoll,
-    },
-  ]
-
-  const chickenItems = [
-    {
-      id: 1,
-      name: "Fried Chicken",
-      price: 400,
-      image: friedChicken,
-    },
-    {
-      id: 2,
-      name: "Grilled Chicken",
-      price: 450,
-      image: grilledChicken,
-    },
-    {
-      id: 3,
-      name: "Chicken Wings",
-      price: 350,
-      image: chickenWings,
-    },
-  ]
+  const handleARClick = () => {
+    window.location.href = "/arscene.html";
+  };
 
   return (
     <div className={styles.container}>
-      {/* Header */}
+      {/* Header with AR Button */}
       <div className={styles.header}>
         <h1>Table 14 Menu</h1>
+        <button className={styles.arButton} onClick={handleARClick}>
+          AR
+        </button>
       </div>
 
       {/* Search Bar */}
@@ -178,44 +137,6 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Burger</h2>
           <div className={styles.itemsContainer}>
             {burgerItems.map((item) => (
-              <div key={item.id} className={styles.menuItem}>
-                <img src={item.image || "/placeholder.svg"} alt={item.name} className={styles.itemImage} />
-                <div className={styles.itemInfo}>
-                  <h3 className={styles.itemName}>{item.name}</h3>
-                  <div className={styles.itemBottom}>
-                    <span className={styles.itemPrice}>Rs. {item.price}</span>
-                    <span className={styles.eyeIcon}>👁</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Sushi Section */}
-        <div className={styles.menuSection}>
-          <h2 className={styles.sectionTitle}>Sushi</h2>
-          <div className={styles.itemsContainer}>
-            {sushiItems.map((item) => (
-              <div key={item.id} className={styles.menuItem}>
-                <img src={item.image || "/placeholder.svg"} alt={item.name} className={styles.itemImage} />
-                <div className={styles.itemInfo}>
-                  <h3 className={styles.itemName}>{item.name}</h3>
-                  <div className={styles.itemBottom}>
-                    <span className={styles.itemPrice}>Rs. {item.price}</span>
-                    <span className={styles.eyeIcon}>👁</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Chicken Section */}
-        <div className={styles.menuSection}>
-          <h2 className={styles.sectionTitle}>Chicken</h2>
-          <div className={styles.itemsContainer}>
-            {chickenItems.map((item) => (
               <div key={item.id} className={styles.menuItem}>
                 <img src={item.image || "/placeholder.svg"} alt={item.name} className={styles.itemImage} />
                 <div className={styles.itemInfo}>

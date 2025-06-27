@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aframe": "^1.7.1",
+    "aframe-ar": "^0.2.1-a",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
