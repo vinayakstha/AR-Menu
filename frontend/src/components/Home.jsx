@@ -122,13 +122,23 @@ export default function Home() {
     },
   ]
 
+
+  
+const handleARClick = () => {
+    window.location.href = "/arscene.html";
+  };
+
   return (
     <div className={styles.container}>
-      {/* Header */}
+      
+     {/* Header with AR Button */}
       <div className={styles.header}>
         <h1>Table 14 Menu</h1>
-
+        <button className={styles.arButton} onClick={handleARClick}>
+          AR
+        </button>
       </div>
+
 
       {/* Search Bar */}
       <div className={styles.searchContainer}>
