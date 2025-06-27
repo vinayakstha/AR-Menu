@@ -14,6 +14,7 @@ import friedChicken from "../assets/images/friedChicken.jpg"
 import grilledChicken from "../assets/images/grilledChicken.jpg"
 import chickenWings from "../assets/images/chickenWings.jpg"
 
+
 export default function Home() {
   const momoItems = [
     {
@@ -78,6 +79,7 @@ export default function Home() {
     },
   ]
 
+
   const sushiItems = [
     {
       id: 1,
@@ -125,6 +127,7 @@ export default function Home() {
       {/* Header */}
       <div className={styles.header}>
         <h1>Table 14 Menu</h1>
+
       </div>
 
       {/* Search Bar */}
@@ -192,6 +195,7 @@ export default function Home() {
           </div>
         </div>
 
+
         {/* Sushi Section */}
         <div className={styles.menuSection}>
           <h2 className={styles.sectionTitle}>Sushi</h2>
@@ -233,3 +237,4 @@ export default function Home() {
     </div>
   )
 }
+
