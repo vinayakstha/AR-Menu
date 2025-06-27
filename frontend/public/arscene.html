@@ -19,113 +19,207 @@
         margin: 0;
         overflow: hidden;
         font-family: 'Segoe UI', Arial, sans-serif;
-        background: linear-gradient(135deg, #1e1e1e, #2c3e50);
+        background: linear-gradient(135deg, #000, #ffd700, #fff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        position: relative;
       }
 
       #model-selector {
-        position: absolute;
-        top: 20px;
-        left: 20px;
+        position: relative;
         z-index: 1000;
-        width: 200px;
+        width: 250px;
+        margin-top: 20px;
       }
 
       #model-choice {
         width: 100%;
-        padding: 12px;
+        padding: 15px;
         font-size: 16px;
         color: #fff;
-        background: rgba(0, 0, 0, 0.85);
-        border: 2px solid #3498db;
-        border-radius: 8px;
+        background: #000;
+        border: 2px solid #ffd700;
+        border-radius: 10px;
         outline: none;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s ease; /* Added transition for smoother hover/focus effects */
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;
-        background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-image: url("data:image/svg+xml;utf8,<svg fill='%23ffd700' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
         background-repeat: no-repeat;
-        background-position: right 10px center;
+        background-position: right 15px center;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
       }
 
       #model-choice:hover {
-        background-color: rgba(52, 152, 219, 0.2);
-        border-color: #1abc9c;
+        background-color: #333;
+        border-color: #fff;
         transform: translateY(-2px);
       }
 
       #model-choice:focus {
-        box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
       }
 
       #model-choice option {
-        background: #2c3e50;
+        background: #000;
         color: #fff;
-        padding: 10px;
+        padding: 10px 12px; /* Reduced vertical padding to remove spacing, kept horizontal for readability */
         font-size: 16px;
-        transition: all 0.3s ease;
+        border-bottom: 1px solid #ffd700;
+        line-height: 1; /* Removed vertical spacing by setting line-height to 1 */
       }
 
-      /* Custom dropdown animation */
-      #model-choice option {
-        animation: slideIn 0.3s ease-out forwards;
-        transform-origin: top;
-      }
-
-      @keyframes slideIn {
+      /* Custom dropdown animation for opening and closing */
+      @keyframes slideDown {
         0% {
           opacity: 0;
-          transform: translateY(-10px);
+          transform: translateY(-15px);
+          transition-timing-function: ease-in-out;
         }
         100% {
           opacity: 1;
           transform: translateY(0);
+          transition-timing-function: ease-in-out;
         }
       }
 
-      /* Add delay to each option for staggered animation */
-      #model-choice option:nth-child(1) { animation-delay: 0.1s; }
-      #model-choice option:nth-child(2) { animation-delay: 0.2s; }
-      #model-choice option:nth-child(3) { animation-delay: 0.3s; }
+      @keyframes slideUp {
+        0% {
+          opacity: 1;
+          transform: translateY(0);
+          transition-timing-function: ease-in-out;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-15px);
+          transition-timing-function: ease-in-out;
+        }
+      }
 
-      /* Ensure the dropdown is visually distinct */
-      #model-selector::before {
-        content: 'Select Dish';
+      #model-choice {
+        position: relative;
+      }
+
+      .dropdown-options {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #000;
+        border: 2px solid #ffd700;
+        border-radius: 0 0 10px 10px;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        z-index: 1000;
+        max-height: 250px;
+        overflow-y: auto;
+        transition: all 0.4s ease; /* Added transition for smoother appearance */
+      }
+
+      #model-choice:focus + .dropdown-options,
+      #model-choice:hover + .dropdown-options {
         display: block;
-        color: #ecf0f1;
-        font-size: 14px;
+        animation: slideDown 0.4s ease-in-out forwards;
+      }
+
+      .dropdown-options.close {
+        animation: slideUp 0.4s ease-in-out forwards;
+      }
+
+      .dropdown-options option {
+        display: block;
+        padding: 10px 12px; /* Reduced vertical padding to remove spacing, kept horizontal */
+        cursor: pointer;
+      }
+
+      .dropdown-options option:hover {
+        background: #333;
+        color: #fff;
+      }
+
+      #model-selector::before {
+        content: 'Choose Your Dish';
+        display: block;
+        color: #fff;
+        font-size: 16px;
         margin-bottom: 8px;
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
+        text-align: center;
+      }
+
+      /* AR Scene Styling */
+      a-scene {
+        width: 70vw;
+        max-width: 800px;
+        height: 50vh;
+        max-height: 600px;
+        border-radius: 12px;
+        border: 2px solid #ffd700;
+        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Ensure the video feed is contained within a-scene */
+      a-scene > video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        z-index: 0;
+        display: block;
+      }
+
+      /* Hide any video elements outside a-scene */
+      body > video {
+        display: none;
+      }
+
+      /* Ensure the canvas fits properly */
+      a-scene canvas {
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
       }
     </style>
   </head>
 
   <body>
-    <div id="model-selector">
-      <select id="model-choice" onchange="changeModel()">
-        <option value="/pizza.glb">Pizza</option>
-        <option value="/Chicken.glb">Chicken</option>
-        <option value="/Sushi.glb">Sushi</option>
-        <option value="Buff momo.glb">Buff Momo</option>
-        <option value="Veg momo.glb">Veg Momo</option>
-        <option value="Chiken Burger.glb">Chicken Burger</option>
-        <option value="Veg Burger.glb">Veg Burger</option>
-        <option value="Chesse Burger.glb">Cheese Burger</option>
-      </select>
-    </div>
-
     <a-scene
       embedded
       vr-mode-ui="enabled: false;"
-      arjs="sourceType: webcam; debugUIEnabled: false;"
+      arjs="sourceType: webcam; debugUIEnabled: false; videoTexture: true; detectionMode: mono; matrixCodeType: 3x3;"
     >
       <a-marker preset="hiro" id="marker">
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
+
+    <div id="model-selector">
+      <select id="model-choice" onchange="changeModel()">
+        <option value="/pizza.glb">Pizza</option>
+        <option value="/Chicken.glb">Chicken</option>
+        <option value="/Sushi.glb">Sushi</option>
+        <option value="/Buff momo.glb">Buff Momo</option>
+        <option value="/Veg momo.glb">Veg Momo</option>
+        <option value="/Chiken Burger.glb">Chicken Burger</option>
+        <option value="/Veg Burger.glb">Veg Burger</option>
+        <option value="/Chesse Burger.glb">Cheese Burger</option>
+      </select>
+    </div>
 
     <script>
       // Available models
@@ -138,38 +232,42 @@
         { name: "Chicken Burger", url: "/Chiken Burger.glb" },
         { name: "Veg Burger", url: "/Veg Burger.glb" },
         { name: "Cheese Burger", url: "/Chesse Burger.glb" }
-
       ];
 
       // Load model based on localStorage or default to first model
       let currentModelUrl = localStorage.getItem("modelUrl") || models[0].url;
       const selectElement = document.getElementById("model-choice");
-      selectElement.value = currentModelUrl; // Set dropdown to current model
+      selectElement.value = currentModelUrl;
 
       // Function to update the displayed model
       function loadModel(url) {
         const marker = document.getElementById("marker");
-        // Remove existing model if any
         while (marker.firstChild) {
           marker.removeChild(marker.firstChild);
         }
-        // Create and append new model
         const modelEntity = document.createElement("a-entity");
         modelEntity.setAttribute("gltf-model", url);
         modelEntity.setAttribute("scale", "3 3 3");
         marker.appendChild(modelEntity);
-        localStorage.setItem("modelUrl", url); // Save to localStorage
+        localStorage.setItem("modelUrl", url);
       }
 
       // Initial model load
       loadModel(currentModelUrl);
-      
 
       // Handle model change from dropdown
       function changeModel() {
         const selectedUrl = selectElement.value;
         loadModel(selectedUrl);
       }
+
+      // Ensure AR.js initializes the webcam feed
+      document.querySelector('a-scene').addEventListener('loaded', () => {
+        const arSystem = document.querySelector('a-scene').systems['arjs'];
+        if (arSystem) {
+          arSystem.setupCamera();
+        }
+      });
     </script>
   </body>
 </html>
