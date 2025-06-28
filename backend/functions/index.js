@@ -1,5 +1,5 @@
 const { addMenuItem, getMenu } = require("./controllers/menu");
-const { addOrder } = require("./controllers/order");
+const { addOrder, getOrders, getOrder } = require("./controllers/order");
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
@@ -50,7 +50,9 @@ app.post(
 // Get menu
 app.get("/menu", getMenu);
 
-app.post("order", addOrder);
+app.post("/orders", addOrder);
+app.get("/orders",getOrders);
+app.get("/orders/:tNo", getOrder);
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
