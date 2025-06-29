@@ -8,31 +8,29 @@
     />
     <title>AR.js Menu Demo</title>
 
-    <!-- A-Frame library -->
+    <!-- A-Frame and AR.js -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-
-    <!-- AR.js library -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 
     <style>
       body {
         margin: 0;
-        overflow: hidden;
+        padding: 0;
         font-family: 'Segoe UI', Arial, sans-serif;
         background: linear-gradient(135deg, #000, #ffd700, #fff);
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        position: relative;
+        justify-content: flex-start;
+        height: 100vh;
+        overflow: hidden;
       }
 
       #model-selector {
-        position: relative;
         z-index: 1000;
         width: 250px;
-        margin-top: 20px;
+        margin: 20px 0;
+        text-align: center;
       }
 
       #model-choice {
@@ -45,10 +43,7 @@
         border-radius: 10px;
         outline: none;
         cursor: pointer;
-        transition: all 0.4s ease; /* Added transition for smoother hover/focus effects */
         appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
         background-image: url("data:image/svg+xml;utf8,<svg fill='%23ffd700' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
         background-repeat: no-repeat;
         background-position: right 15px center;
@@ -58,88 +53,6 @@
       #model-choice:hover {
         background-color: #333;
         border-color: #fff;
-        transform: translateY(-2px);
-      }
-
-      #model-choice:focus {
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-      }
-
-      #model-choice option {
-        background: #000;
-        color: #fff;
-        padding: 10px 12px; /* Reduced vertical padding to remove spacing, kept horizontal for readability */
-        font-size: 16px;
-        border-bottom: 1px solid #ffd700;
-        line-height: 1; /* Removed vertical spacing by setting line-height to 1 */
-      }
-
-      /* Custom dropdown animation for opening and closing */
-      @keyframes slideDown {
-        0% {
-          opacity: 0;
-          transform: translateY(-15px);
-          transition-timing-function: ease-in-out;
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-          transition-timing-function: ease-in-out;
-        }
-      }
-
-      @keyframes slideUp {
-        0% {
-          opacity: 1;
-          transform: translateY(0);
-          transition-timing-function: ease-in-out;
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(-15px);
-          transition-timing-function: ease-in-out;
-        }
-      }
-
-      #model-choice {
-        position: relative;
-      }
-
-      .dropdown-options {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: #000;
-        border: 2px solid #ffd700;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-        z-index: 1000;
-        max-height: 250px;
-        overflow-y: auto;
-        transition: all 0.4s ease; /* Added transition for smoother appearance */
-      }
-
-      #model-choice:focus + .dropdown-options,
-      #model-choice:hover + .dropdown-options {
-        display: block;
-        animation: slideDown 0.4s ease-in-out forwards;
-      }
-
-      .dropdown-options.close {
-        animation: slideUp 0.4s ease-in-out forwards;
-      }
-
-      .dropdown-options option {
-        display: block;
-        padding: 10px 12px; /* Reduced vertical padding to remove spacing, kept horizontal */
-        cursor: pointer;
-      }
-
-      .dropdown-options option:hover {
-        background: #333;
-        color: #fff;
       }
 
       #model-selector::before {
@@ -151,63 +64,31 @@
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
-        text-align: center;
       }
 
-      /* AR Scene Styling */
-      a-scene {
-        width: 70vw;
-        max-width: 800px;
+      /* AR Container Box */
+      .ar-container {
+        width: 80vw;
+        max-width: 640px;
         height: 50vh;
-        max-height: 600px;
-        border-radius: 12px;
         border: 2px solid #ffd700;
-        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+        border-radius: 12px;
         overflow: hidden;
+        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
         position: relative;
-        z-index: 1;
+        z-index: 500;
       }
 
-      /* Ensure the video feed is contained within a-scene */
-      a-scene > video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover;
-        z-index: 0;
-        display: block;
-      }
-
-      /* Hide any video elements outside a-scene */
-      body > video {
-        display: none;
-      }
-
-      /* Ensure the canvas fits properly */
-      a-scene canvas {
-        width: 100% !important;
-        height: 100% !important;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
+      a-scene {
+        width: 100%;
+        height: 100%;
+        position: relative;
       }
     </style>
   </head>
 
   <body>
-    <a-scene
-      embedded
-      vr-mode-ui="enabled: false;"
-      arjs="sourceType: webcam; debugUIEnabled: false; videoTexture: true; detectionMode: mono; matrixCodeType: 3x3;"
-    >
-      <a-marker preset="hiro" id="marker">
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-
+    <!-- Dropdown UI -->
     <div id="model-selector">
       <select id="model-choice" onchange="changeModel()">
         <option value="/pizza.glb">Pizza</option>
@@ -221,8 +102,20 @@
       </select>
     </div>
 
+    <!-- Bordered AR view -->
+    <div class="ar-container">
+      <a-scene
+        embedded
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;"
+        arjs="sourceType: webcam; debugUIEnabled: false;"
+      >
+        <a-marker preset="hiro" id="marker"></a-marker>
+        <a-entity camera></a-entity>
+      </a-scene>
+    </div>
+
     <script>
-      // Available models
       const models = [
         { name: "Pizza", url: "/pizza.glb" },
         { name: "Chicken", url: "/Chicken.glb" },
@@ -234,40 +127,32 @@
         { name: "Cheese Burger", url: "/Chesse Burger.glb" }
       ];
 
-      // Load model based on localStorage or default to first model
       let currentModelUrl = localStorage.getItem("modelUrl") || models[0].url;
       const selectElement = document.getElementById("model-choice");
       selectElement.value = currentModelUrl;
 
-      // Function to update the displayed model
       function loadModel(url) {
         const marker = document.getElementById("marker");
-        while (marker.firstChild) {
-          marker.removeChild(marker.firstChild);
-        }
+
+        // Remove previous model only
+        const oldModel = marker.querySelector('[gltf-model]');
+        if (oldModel) marker.removeChild(oldModel);
+
         const modelEntity = document.createElement("a-entity");
         modelEntity.setAttribute("gltf-model", url);
         modelEntity.setAttribute("scale", "3 3 3");
         marker.appendChild(modelEntity);
+
         localStorage.setItem("modelUrl", url);
       }
 
-      // Initial model load
+      // Load model initially
       loadModel(currentModelUrl);
 
-      // Handle model change from dropdown
       function changeModel() {
         const selectedUrl = selectElement.value;
         loadModel(selectedUrl);
       }
-
-      // Ensure AR.js initializes the webcam feed
-      document.querySelector('a-scene').addEventListener('loaded', () => {
-        const arSystem = document.querySelector('a-scene').systems['arjs'];
-        if (arSystem) {
-          arSystem.setupCamera();
-        }
-      });
     </script>
   </body>
 </html>
