@@ -4,7 +4,7 @@ const { params } = require("firebase-functions");
 
 const addOrder = async (req, res) => {
   try {
-    const { tableNo, items } = req.body;
+    const { tableNo, items, desc } = req.body;
 
     // Validate required fields
     if (!tableNo || !Array.isArray(items) || items.length === 0) {
@@ -19,6 +19,7 @@ const addOrder = async (req, res) => {
     await newRef.set({
       tableNo,
       items,
+      desc: desc || "",
       createdAt: Date.now(),
     });
 
@@ -52,7 +53,6 @@ const getOrder = async (req, res) => {
   if (isNaN(tNo)) {
     return res.status(400).send({ message: "Invalid table number" });
   }
-
 
   try {
     const db = admin.database();
