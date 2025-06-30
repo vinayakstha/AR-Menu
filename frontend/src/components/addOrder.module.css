@@ -1,0 +1,409 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Varela+Round&display=swap');
+
+/* Global Transitions */
+* {
+  transition: all 0.3s ease-in-out;
+}
+
+.container {
+  min-height: 100vh;
+  background: white;
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.backButton:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.headerSpacer {
+  width: 40px;
+}
+
+/* Search Bar */
+.searchContainer {
+  padding: 0 20px 20px 20px;
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 16px;
+  padding-right: 48px;
+  font-size: 16px;
+  color: #666;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  background-color: #eeeeee;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 36px;
+  top: 50%;
+  transform: translateY(-95%);
+  color: #22c55e;
+  font-size: 18px;
+}
+
+/* Main Content */
+.content {
+  padding: 0 20px 20px 20px;
+}
+
+.orderCard {
+  background-color: rgb(145, 225, 184);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+/* Item Info Section */
+.itemInfoSection {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
+
+.itemImageContainer {
+  flex-shrink: 0;
+}
+
+.itemImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 12px;
+  background-color: #f0f0f0;
+  transition: all 0.3s ease-in-out;
+}
+
+.itemDetails {
+  flex: 1;
+}
+
+.itemName,
+.itemPrice,
+.itemCategory,
+.itemDescription {
+  transition: all 0.3s ease-in-out;
+}
+
+.itemName {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 8px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.itemPrice {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  margin: 0 0 4px 0;
+}
+
+.itemCategory {
+  font-size: 16px;
+  color: #3b82f6;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.itemDescription {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
+/* Quantity Section */
+.quantitySection {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.quantityButton {
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  background-color: white;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  font-family: "Poppins", sans-serif;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.quantityButton:hover {
+  background-color: #f0f0f0;
+}
+
+.quantityButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantityDisplay {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  min-width: 30px;
+  text-align: center;
+  transition: font-size 0.3s ease-in-out;
+}
+
+/* Description Section */
+.descriptionSection {
+  margin-bottom: 24px;
+}
+
+.descriptionInput {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #e5e5e5;
+  border-radius: 12px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  font-family: "Poppins", sans-serif;
+  resize: vertical;
+  box-sizing: border-box;
+  min-height: 100px;
+  transition: all 0.3s ease-in-out;
+}
+
+.descriptionInput:focus {
+  outline: none;
+  border-color: #22c55e;
+  background-color: white;
+}
+
+.descriptionInput::placeholder {
+  color: #999;
+}
+
+/* Add to Order Button */
+.addToOrderButton {
+  width: 100%;
+  padding: 16px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addToOrderButton:hover {
+  background-color: #dc2626;
+}
+
+.addToOrderButton:active {
+  background-color: #b91c1c;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .header {
+    width: 100%;
+    max-width: 600px;
+    justify-content: center;
+    position: relative;
+  }
+
+  .backButton {
+    position: absolute;
+    left: 0;
+  }
+
+  .searchContainer,
+  .content {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .orderCard {
+    padding: 32px;
+  }
+
+  .itemInfoSection {
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .itemImage {
+    width: 140px;
+    height: 140px;
+  }
+
+  .itemName {
+    font-size: 28px;
+  }
+
+  .itemPrice {
+    font-size: 20px;
+  }
+
+  .quantityControls {
+    gap: 24px;
+  }
+
+  .quantityButton {
+    width: 45px;
+    height: 45px;
+    font-size: 22px;
+  }
+
+  .quantityDisplay {
+    font-size: 22px;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1024px) {
+  .content {
+    max-width: 700px;
+  }
+
+  .orderCard {
+    padding: 40px;
+  }
+
+  .itemInfoSection {
+    gap: 32px;
+  }
+
+  .itemImage {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* Mobile (below 500px) with balanced scaling */
+@media (max-width: 500px) {
+  .container {
+    max-width: 100%;
+  }
+
+  .itemInfoSection {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  .itemImage {
+    width: 130px;
+    height: 130px;
+  }
+
+  .itemDetails {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .itemName {
+    font-size: 16px;
+  }
+
+  .itemPrice {
+    font-size: 14px;
+  }
+
+  .itemCategory {
+    font-size: 13px;
+  }
+
+  .itemDescription {
+    font-size: 12px;
+  }
+
+  .orderCard {
+    padding: 20px;
+    margin: 0 10px;
+    border-radius: 16px;
+  }
+
+  .quantityControls {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 14px;
+  }
+
+  .quantityButton {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  .quantityDisplay {
+    font-size: 16px;
+  }
+}
