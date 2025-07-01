@@ -2,20 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./addOrder.module.css";
 import vegMomo from "../assets/images/vegMomo.png";
-
+import { useLocation } from "react-router-dom";
 export default function AddOrder() {
   const [quantity, setQuantity] = useState(1);
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { item } = location.state; // get the item passed via navigate()
 
-  const itemData = {
-    id: 1,
-    name: "Veg Momo",
-    price: 150,
-    category: "Vegetarian",
-    description: "A veg momo mixed with different spices and authentic taste experience",
-    image: vegMomo,
-  };
+  const itemData = item;
 
   const defaultPrices = {
     water: 0,
@@ -74,13 +69,19 @@ export default function AddOrder() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button className={styles.backButton} onClick={goBack}>←</button>
+        <button className={styles.backButton} onClick={goBack}>
+          ←
+        </button>
         <h1>Table 14 Menu</h1>
         <div className={styles.headerSpacer}></div>
       </div>
 
       <div className={styles.searchContainer}>
-        <input type="text" placeholder="Search Items..." className={styles.searchInput} />
+        <input
+          type="text"
+          placeholder="Search Items..."
+          className={styles.searchInput}
+        />
         <span className={styles.searchIcon}>🔍</span>
       </div>
 
@@ -88,7 +89,11 @@ export default function AddOrder() {
         <div className={styles.orderCard}>
           <div className={styles.itemInfoSection}>
             <div className={styles.itemImageContainer}>
-              <img src={itemData.image || "/placeholder.svg"} alt={itemData.name} className={styles.itemImage} />
+              <img
+                src={itemData.image || "/placeholder.svg"}
+                alt={itemData.name}
+                className={styles.itemImage}
+              />
             </div>
             <div className={styles.itemDetails}>
               <h2 className={styles.itemName}>{itemData.name}</h2>
@@ -101,9 +106,20 @@ export default function AddOrder() {
           <div className={styles.quantitySection}>
             <h3 className={styles.sectionTitle}>Quantity</h3>
             <div className={styles.quantityControls}>
-              <button className={styles.quantityButton} onClick={decreaseQuantity} disabled={quantity <= 1}>−</button>
+              <button
+                className={styles.quantityButton}
+                onClick={decreaseQuantity}
+                disabled={quantity <= 1}
+              >
+                −
+              </button>
               <span className={styles.quantityDisplay}>{quantity}</span>
-              <button className={styles.quantityButton} onClick={increaseQuantity}>+</button>
+              <button
+                className={styles.quantityButton}
+                onClick={increaseQuantity}
+              >
+                +
+              </button>
             </div>
           </div>
 
