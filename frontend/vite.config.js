@@ -1,5 +1,5 @@
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,6 +12,7 @@ export default defineConfig({
       "11f5-2400-1a00-b040-ef9e-b02e-39e8-d3a2-7720.ngrok-free.app",
       "c8ed-110-44-119-186.ngrok-free.app"
     ],
+
   },
   optimizeDeps: {
     exclude: ["aframe", "ar.js"], // Since using CDN
