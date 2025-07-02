@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Main Menu Container */
+.menuContent {
+  padding: 0 16px;
+}
+
+/* Each Menu Section */
+.menuSection {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  color: #22c55e;
+  margin: 0 0 20px 0;
+}
+
+/* Grid Layout for Desktop */
+.itemsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Individual Menu Item Card */
+.menuItem {
+  width: 100%;
+}
+
+/* Food Image */
+.itemImage {
+  width: 100%;
+  height: 180px;
+  cursor: pointer;
+  object-fit: cover;
+  border-radius: 8px;
+  background-color: #f0f0f0;
+}
+
+/* Info Section (Name, Price, Icon) */
+.itemInfo {
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.itemName {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  font-family: "Poppins", sans-serif;
+  margin: 0 0 8px 0;
+}
+
+.itemBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemPrice {
+  font-size: 16px;
+  color: #666;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Eye Icon (👁) */
+.eyeIcon {
+  font-size: 25px;
+  color: #666;
+  cursor: pointer;
+}
+
+.eyeIcon:hover {
+  color: #333;
+}
+
+/* Mobile & Tablet Responsive Layout */
+@media (max-width: 768px) {
+  .itemsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .itemsContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menuItem {
+    flex-shrink: 0;
+    width: 160px;
+    scroll-snap-align: start;
+  }
+
+  .itemImage {
+    width: 160px;
+    height: 120px;
+  }
+
+  .itemInfo {
+    margin-top: 8px;
+  }
+
+  .itemName,
+  .itemPrice {
+    font-size: 14px;
+  }
+
+  .eyeIcon {
+    font-size: 18px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+  }
+}

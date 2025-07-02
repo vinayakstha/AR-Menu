@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1"
+    />
+    <title>AR.js Menu Demo</title>
+
+    <!-- A-Frame and AR.js -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(135deg, #000, #ffd700, #fff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      #model-selector {
+        z-index: 1000;
+        width: 250px;
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      #model-choice {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+        color: #fff;
+        background: #000;
+        border: 2px solid #ffd700;
+        border-radius: 10px;
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='%23ffd700' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      }
+
+      #model-choice:hover {
+        background-color: #333;
+        border-color: #fff;
+      }
+
+      #model-selector::before {
+        content: 'Choose Your Dish';
+        display: block;
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 8px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* AR Container Box */
+      .ar-container {
+        width: 80vw;
+        max-width: 640px;
+        height: 50vh;
+        border: 2px solid #ffd700;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+        position: relative;
+        z-index: 500;
+      }
+
+      a-scene {
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Dropdown UI -->
+    <div id="model-selector">
+      <select id="model-choice" onchange="changeModel()">
+        <option value="/pizza.glb">Pizza</option>
+        <option value="/Chicken.glb">Chicken</option>
+        <option value="/Sushi.glb">Sushi</option>
+        <option value="/Buff momo.glb">Buff Momo</option>
+        <option value="/Veg momo.glb">Veg Momo</option>
+        <option value="/Chiken Burger.glb">Chicken Burger</option>
+        <option value="/Veg Burger.glb">Veg Burger</option>
+        <option value="/Chesse Burger.glb">Cheese Burger</option>
+      </select>
+    </div>
+
+    <!-- Bordered AR view -->
+    <div class="ar-container">
+      <a-scene
+        embedded
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;"
+        arjs="sourceType: webcam; debugUIEnabled: false;"
+      >
+        <a-marker preset="hiro" id="marker"></a-marker>
+        <a-entity camera></a-entity>
+      </a-scene>
+    </div>
+
+    <script>
+      const models = [
+        { name: "Pizza", url: "/pizza.glb" },
+        { name: "Chicken", url: "/Chicken.glb" },
+        { name: "Sushi", url: "/Sushi.glb" },
+        { name: "Buff Momo", url: "/Buff momo.glb" },
+        { name: "Veg Momo", url: "/Veg momo.glb" },
+        { name: "Chicken Burger", url: "/Chiken Burger.glb" },
+        { name: "Veg Burger", url: "/Veg Burger.glb" },
+        { name: "Cheese Burger", url: "/Chesse Burger.glb" }
+      ];
+
+      let currentModelUrl = localStorage.getItem("modelUrl") || models[0].url;
+      const selectElement = document.getElementById("model-choice");
+      selectElement.value = currentModelUrl;
+
+      function loadModel(url) {
+        const marker = document.getElementById("marker");
+
+        // Remove previous model only
+        const oldModel = marker.querySelector('[gltf-model]');
+        if (oldModel) marker.removeChild(oldModel);
+
+        const modelEntity = document.createElement("a-entity");
+        modelEntity.setAttribute("gltf-model", url);
+        modelEntity.setAttribute("scale", "3 3 3");
+        marker.appendChild(modelEntity);
+
+        localStorage.setItem("modelUrl", url);
+      }
+
+      // Load model initially
+      loadModel(currentModelUrl);
+
+      function changeModel() {
+        const selectedUrl = selectElement.value;
+        loadModel(selectedUrl);
+      }
+    </script>
+  </body>
+</html>
