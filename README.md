@@ -20,3 +20,16 @@ An Augmented Reality (AR) Restaurant Menu web application that allows users to v
 | CSS | Responsive styling |
 
 
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](screenshots/HomePage.png)
+
+### 🧾 Order Page
+![Order Page](screenshots/OrderPage.png)
+
+### ✅ Confirm Order Page
+![Confirm Order Page](screenshots/ConfirmOrderPage.png)
+
+### 🎉 Order Placed Page
+![Order Placed Page](screenshots/OrderPlacedPage.png)
