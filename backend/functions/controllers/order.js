@@ -4,7 +4,7 @@ const { params } = require("firebase-functions");
 
 const addOrder = async (req, res) => {
   try {
-    const { tableNo, items, desc } = req.body;
+    const { tableNo, items } = req.body;
 
     // Validate required fields
     if (!tableNo || !Array.isArray(items) || items.length === 0) {
@@ -19,7 +19,6 @@ const addOrder = async (req, res) => {
     await newRef.set({
       tableNo,
       items,
-      desc: desc || "",
       createdAt: Date.now(),
     });
 

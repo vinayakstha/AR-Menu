@@ -11,28 +11,50 @@
     <!-- A-Frame and AR.js -->
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <!-- Add or update these styles in your <style> tag -->
     <style>
+      html,
       body {
+        width: 100vw;
+        height: 100vh;
         margin: 0;
         padding: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: linear-gradient(135deg, #000, #ffd700, #fff);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        height: 100vh;
         overflow: hidden;
       }
 
-      #model-selector {
-        z-index: 1000;
-        width: 250px;
-        margin: 20px 0;
-        text-align: center;
+      .ar-container {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        border: none;
+        box-shadow: none;
+        z-index: 1;
       }
 
+      a-scene {
+        width: 100vw !important;
+        height: 100vh !important;
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        z-index: 2;
+      }
+
+      #model-selector {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        width: 250px;
+        text-align: center;
+      }
       #model-choice {
         width: 100%;
         padding: 15px;
@@ -56,8 +78,7 @@
       }
 
       #model-selector::before {
-        content: 'Choose Your Dish';
-        display: block;
+        content: "Choose Your Dish";
         color: #fff;
         font-size: 16px;
         margin-bottom: 8px;
@@ -65,41 +86,13 @@
         text-transform: uppercase;
         letter-spacing: 1px;
       }
-
-      /* AR Container Box */
-      .ar-container {
-        width: 80vw;
-        max-width: 640px;
-        height: 50vh;
-        border: 2px solid #ffd700;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
-        position: relative;
-        z-index: 500;
-      }
-
-      a-scene {
-        width: 100%;
-        height: 100%;
-        position: relative;
-      }
     </style>
   </head>
 
   <body>
     <!-- Dropdown UI -->
     <div id="model-selector">
-      <select id="model-choice" onchange="changeModel()">
-        <option value="/pizza.glb">Pizza</option>
-        <option value="/Chicken.glb">Chicken</option>
-        <option value="/Sushi.glb">Sushi</option>
-        <option value="/Buff momo.glb">Buff Momo</option>
-        <option value="/Veg momo.glb">Veg Momo</option>
-        <option value="/Chiken Burger.glb">Chicken Burger</option>
-        <option value="/Veg Burger.glb">Veg Burger</option>
-        <option value="/Chesse Burger.glb">Cheese Burger</option>
-      </select>
+      <select id="model-choice" onchange="changeModel()"></select>
     </div>
 
     <!-- Bordered AR view -->
@@ -116,43 +109,72 @@
     </div>
 
     <script>
-      const models = [
-        { name: "Pizza", url: "/pizza.glb" },
-        { name: "Chicken", url: "/Chicken.glb" },
-        { name: "Sushi", url: "/Sushi.glb" },
-        { name: "Buff Momo", url: "/Buff momo.glb" },
-        { name: "Veg Momo", url: "/Veg momo.glb" },
-        { name: "Chicken Burger", url: "/Chiken Burger.glb" },
-        { name: "Veg Burger", url: "/Veg Burger.glb" },
-        { name: "Cheese Burger", url: "/Chesse Burger.glb" }
-      ];
-
-      let currentModelUrl = localStorage.getItem("modelUrl") || models[0].url;
-      const selectElement = document.getElementById("model-choice");
-      selectElement.value = currentModelUrl;
-
-      function loadModel(url) {
-        const marker = document.getElementById("marker");
-
-        // Remove previous model only
-        const oldModel = marker.querySelector('[gltf-model]');
-        if (oldModel) marker.removeChild(oldModel);
-
-        const modelEntity = document.createElement("a-entity");
-        modelEntity.setAttribute("gltf-model", url);
-        modelEntity.setAttribute("scale", "3 3 3");
-        marker.appendChild(modelEntity);
-
-        localStorage.setItem("modelUrl", url);
+      function formatter(firebaseData) {
+        const itemsData = {};
+        firebaseData.forEach((categoryObj) => {
+          const formattedCategory = categoryObj.id;
+          const itemsArray = Object.values(categoryObj.items || {});
+          itemsData[formattedCategory] = itemsArray.map((item) => ({
+            name: item.name,
+            url: "http://localhost:3000/" + item.model,
+          }));
+        });
+        return itemsData;
       }
 
-      // Load model initially
-      loadModel(currentModelUrl);
+      async function initARMenu() {
+        try {
+          const response = await axios.get("http://localhost:3000/menu");
 
-      function changeModel() {
-        const selectedUrl = selectElement.value;
-        loadModel(selectedUrl);
+          const models = formatter(response.data);
+          console.log(models);
+
+          const selectElement = document.getElementById("model-choice");
+
+          // Clear existing options
+          selectElement.innerHTML = "";
+
+          // Flatten all items from all categories and add as options
+          Object.values(models)
+            .flat()
+            .forEach((item) => {
+              const option = document.createElement("option");
+              option.value = item.url; // value is the model URL
+              option.textContent = item.name; // text is the model name
+              selectElement.appendChild(option);
+            });
+
+          // Set the current value
+          let currentModelUrl =
+            localStorage.getItem("modelUrl") || selectElement.options[0]?.value;
+          selectElement.value = currentModelUrl;
+
+          function loadModel(url) {
+            const marker = document.getElementById("marker");
+            const oldModel = marker.querySelector("[gltf-model]");
+            if (oldModel) marker.removeChild(oldModel);
+
+            const modelEntity = document.createElement("a-entity");
+            modelEntity.setAttribute("gltf-model", url);
+            modelEntity.setAttribute("scale", "3 3 3");
+            marker.appendChild(modelEntity);
+
+            localStorage.setItem("modelUrl", url);
+          }
+
+          // Load model initially
+          loadModel(currentModelUrl);
+
+          window.changeModel = function () {
+            const selectedUrl = selectElement.value;
+            loadModel(selectedUrl);
+          };
+        } catch (error) {
+          console.error("Failed to load menu models:", error);
+        }
       }
+
+      window.addEventListener("DOMContentLoaded", initARMenu);
     </script>
   </body>
 </html>
