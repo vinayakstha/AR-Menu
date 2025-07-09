@@ -3,7 +3,11 @@ import { useNavigate } from "react-router-dom";
 import styles from "./addOrder.module.css";
 import vegMomo from "../assets/images/vegMomo.png";
 import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import OrderContext from "./orderContext";
+
 export default function AddOrder() {
+  const { order, setOrder } = useContext(OrderContext);
   const [quantity, setQuantity] = useState(1);
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
@@ -45,23 +49,17 @@ export default function AddOrder() {
   };
 
   const addToOrder = () => {
-    const additionalItems = parseAdditionalItems(description);
-    navigate("/confirmOrder", {
-      state: {
-        orderItems: [
-          {
-            id: itemData.id,
-            name: itemData.name,
-            price: itemData.price,
-            quantity: quantity,
-            image: itemData.image,
-          },
-        ],
-        description,
-        additionalItems,
-        orderId: 1,
-      },
-    });
+    const optionaldesc = parseAdditionalItems(description);
+    setOrder([...order,{
+      id: order.length+1,
+      item:itemData.name,
+      qty: quantity,
+      price:parseFloat(itemData.price),
+      desc: optionaldesc,
+      image: itemData.image ,
+
+    }])
+    navigate("/")
   };
 
   const goBack = () => window.history.back();
@@ -124,10 +122,10 @@ export default function AddOrder() {
           </div>
 
           <div className={styles.descriptionSection}>
-            <h3 className={styles.sectionTitle}>Additional Items (Optional)</h3>
+            <h3 className={styles.sectionTitle}>Description(Optional)</h3>
             <textarea
               className={styles.descriptionInput}
-              placeholder="e.g., Water, Coke, Juice"
+              placeholder="e.g. No onions, extra spicy, etc."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}

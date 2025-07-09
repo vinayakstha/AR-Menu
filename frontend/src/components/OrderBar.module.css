@@ -1,0 +1,11 @@
+.container {
+  border-radius: 50px;
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  background-color: aquamarine;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}

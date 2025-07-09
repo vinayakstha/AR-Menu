@@ -1,7 +1,7 @@
 import styles from "./Menu.module.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 // Image Imports
 import vegMomo from "../assets/images/vegMomo.png";
@@ -18,46 +18,54 @@ import sushiRoll from "../assets/images/sushiRoll.jpg";
 import friedChicken from "../assets/images/friedChicken.jpg";
 import grilledChicken from "../assets/images/grilledChicken.jpg";
 import chickenWings from "../assets/images/chickenWings.jpg";
+import { useContext } from "react";
+import OrderContext from "./orderContext";
+import OrderBar from "./OrderBar";
 
 export default function Menu() {
-    const [itemsData, setItemsData] = useState({});
+  const {order, setOrder} = useContext(OrderContext);
+  const [itemsData, setItemsData] = useState({});
+
+  function handleEye(item){
+    localStorage.setItem("modelUrl", item.model);
+  }
 
   useEffect(() => {
-  axios.get('http://localhost:3000/menu')
-  .then(response => {
+    axios
+      .get("http://localhost:3000/menu")
+      .then((response) => {
         const formatted = formatter(response.data);
         setItemsData(formatted);
-  })
-  .catch(error => {
-    console.error(error); // handle error
-  });
-}, []);
+      })
+      .catch((error) => {
+        console.error(error); // handle error
+      });
+  }, []);
   const navigate = useNavigate();
 
   const handleItemClick = (item) => {
     navigate("/addOrder", { state: { item } });
   };
 
+  function formatter(firebaseData) {
+    const itemsData = {};
 
-function formatter(firebaseData){
-  const itemsData = {};
+    firebaseData.forEach((categoryObj) => {
+      const formattedCategory = categoryObj.id;
+      const itemsArray = Object.values(categoryObj.items || {});
 
-firebaseData.forEach(categoryObj => {
-  const formattedCategory = categoryObj.id;
-  const itemsArray = Object.values(categoryObj.items || {});
-  
-  itemsData[formattedCategory] = itemsArray.map((item) => ({
-    id: item.id, 
-    name: item.name,
-    price: item.price,
-    image: "http://localhost:3000/"+item.image,
-    category: formattedCategory,
-    description: item.description,
-    model: "http://localhost:3000/"+item.model, 
-  }));
-});
-return itemsData;
-}
+      itemsData[formattedCategory] = itemsArray.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: "http://localhost:3000/" + item.image,
+        category: formattedCategory,
+        description: item.description,
+        model: "http://localhost:3000/" + item.model,
+      }));
+    });
+    return itemsData;
+  }
   return (
     <div className={styles.menuContent}>
       {Object.entries(itemsData).map(([sectionTitle, items]) => (
@@ -80,7 +88,9 @@ return itemsData;
                   <h3 className={styles.itemName}>{item.name}</h3>
                   <div className={styles.itemBottom}>
                     <span className={styles.itemPrice}>Rs. {item.price}</span>
-                    <span className={styles.eyeIcon}>👁</span>
+                    <span className={styles.eyeIcon} onClick={() => handleEye(item)}>
+                      <a href="http://localhost:5173/arscene.html">👁</a>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -88,6 +98,7 @@ return itemsData;
           </div>
         </div>
       ))}
+      <OrderBar/>
     </div>
   );
 }
